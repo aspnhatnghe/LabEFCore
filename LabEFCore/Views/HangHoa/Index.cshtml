@@ -1,0 +1,67 @@
+﻿@model IEnumerable<LabEFCore.Models.HangHoa>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh sách Hàng hóa</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TenHh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoTaDonVi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DonGia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgaySanXuat)
+            </th>           
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiamGia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLanXem)
+            </th>            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenHh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTaDonVi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DonGia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hinh)
+            </td>
+            <td>@item.NgaySanXuat.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiamGia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLanXem)
+            </td>                    
+        </tr>
+}
+    </tbody>
+</table>
