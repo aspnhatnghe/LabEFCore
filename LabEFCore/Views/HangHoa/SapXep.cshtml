@@ -1,0 +1,71 @@
+﻿@model IEnumerable<LabEFCore.Models.HangHoaView>
+
+@{
+    ViewData["Title"] = "SapXep";
+}
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous' />
+<h1>Demo sắp xếp</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @if (ViewBag.OrderType == "TenHh_Asc")
+                {
+                    <i class="fas fa-sort-alpha-down"></i>
+                    <a asp-action="SapXep" asp-route-orderStr="TenHh_Desc">@Html.DisplayNameFor(model => model.TenHh)</a>
+                }
+                else if (ViewBag.OrderType == "TenHh_Desc")
+                {
+                    <i class="fas fa-sort-alpha-up"></i>
+                    <a asp-action="SapXep" asp-route-orderStr="TenHh_Asc">@Html.DisplayNameFor(model => model.TenHh)</a>
+                }
+                else
+                {
+                    <a asp-action="SapXep" asp-route-orderStr="TenHh_Asc">
+                        @Html.DisplayNameFor(model => model.TenHh)
+                    </a>
+                }
+            </th>
+            <th>
+                @if (ViewBag.OrderType == "DonGia_Asc")
+                {
+                    <i class="fas fa-sort-numeric-down"></i>
+                    <a asp-action="SapXep" asp-route-orderStr="DonGia_Desc">
+                        @Html.DisplayNameFor(model => model.DonGia)
+                    </a>
+                }
+                else if (ViewBag.OrderType == "DonGia_Desc")
+                {
+                    <i class="fas fa-sort-numeric-up"></i>
+                    <a asp-action="SapXep" asp-route-orderStr="DonGia_Asc">
+                        @Html.DisplayNameFor(model => model.DonGia)
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="SapXep" asp-route-orderStr="DonGia_Asc">
+                        @Html.DisplayNameFor(model => model.DonGia)
+                    </a>
+                }
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hinh)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenHh)
+                </td>
+                <td>@item.DonGia.ToString("#,##0") đ</td>
+                <td>
+                    <img src="~/Hinh/HangHoa/@item.Hinh" height="200" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

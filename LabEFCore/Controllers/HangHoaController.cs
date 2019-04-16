@@ -40,7 +40,8 @@ namespace LabEFCore.Controllers
         public IActionResult HienThi()
         {
             var dsHH = ctx.HangHoas
-                .Select(hh => new HangHoaView {
+                .Select(hh => new HangHoaView
+                {
                     MaHh = hh.MaHh,
                     TenHh = hh.TenHh,
                     DonGia = hh.DonGia,
@@ -82,7 +83,7 @@ namespace LabEFCore.Controllers
         public IActionResult Dau()
         {
             var hh = ctx.HangHoas.FirstOrDefault();
-            if(hh != null)
+            if (hh != null)
             {
                 return View("HangHoaView", hh);
             }
@@ -108,5 +109,70 @@ namespace LabEFCore.Controllers
             }
             return NotFound();
         }
+
+        #region Sorting and Paging
+        public IActionResult SapXep(string orderStr)
+        {
+            if(string.IsNullOrEmpty(orderStr))
+            {
+                orderStr = "TenHh_Asc";
+            }
+            var dsHangHoa = ctx.HangHoas.AsQueryable();
+            switch(orderStr)
+            {
+                case "TenHh_Asc":
+                    dsHangHoa = dsHangHoa.OrderBy(p => p.TenHh);
+                    break;
+                case "TenHh_Desc":
+                    dsHangHoa = dsHangHoa.OrderByDescending(p => p.TenHh);
+                    break;
+                case "DonGia_Asc":
+                    dsHangHoa = dsHangHoa.OrderBy(p => p.DonGia); break;
+                case "DonGia_Desc":
+                    dsHangHoa = dsHangHoa.OrderByDescending(p => p.DonGia); break;
+            }
+            ViewBag.OrderType = orderStr;
+
+            return View(dsHangHoa.Select(hh => new HangHoaView
+            {
+                MaHh = hh.MaHh, TenHh = hh.TenHh,
+                Hinh = hh.Hinh, DonGia = hh.DonGia
+            }));
+        }
+
+        public IActionResult SapXepTongHop()
+        {
+            var dsHangHoa = ctx.HangHoas
+                .OrderByDescending(p => p.DonGia)
+                .ThenBy(p => p.TenHh);
+            return View("SapXep", dsHangHoa.Select(hh => new HangHoaView
+            {
+                MaHh = hh.MaHh,
+                TenHh = hh.TenHh,
+                Hinh = hh.Hinh,
+                DonGia = hh.DonGia
+            }));
+        }
+
+        const int PAGE_SIZE = 10;
+        public IActionResult PhanTrang(int? page)
+        {
+            if (page == null) page = 1;
+            //bỏ n phần tử đầu
+            int skipN = (page.Value - 1) * PAGE_SIZE;
+
+            var dsHangHoa = ctx.HangHoas
+                .OrderByDescending(p => p.TenHh)
+                .Skip(skipN)
+                .Take(PAGE_SIZE);
+            return View("SapXep", dsHangHoa.Select(hh => new HangHoaView
+            {
+                MaHh = hh.MaHh,
+                TenHh = hh.TenHh,
+                Hinh = hh.Hinh,
+                DonGia = hh.DonGia
+            }));
+        }
+        #endregion        
     }
 }
