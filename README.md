@@ -6,14 +6,14 @@ Tutorial : https://aspcore.weebly.com/tips-and-tricks.html
 Video: https://www.youtube.com/watch?v=dDOOjQSDfYs&list=PLE5Bje814fYbj8faJ9QFe32wLW7JG1XhS
 
 ### Entity Framework Core
-Bài 1: Entity Framework Core, Code First
+Tut 1: [Entity Framework Core, Code First](https://www.youtube.com/watch?v=dDOOjQSDfYs)
 
-Bài 2: EF Core Database First
+Tut 2: [EF Core Database First](https://www.youtube.com/watch?v=EWACRIGxPeU)
 
-Bài 3: ASP.NET Core MVC CRUD using EF Core
+Tut 3: [ASP.NET Core MVC CRUD using EF Core](https://www.youtube.com/watch?v=2rs0sPJAZas)
 
-Bài 4: Lệnh .Select()
+Tut 4: [.Select() statement](https://www.youtube.com/watch?v=cYgngtPWQRw)
 
-Bài 5: Lệnh .Where(), .Single(), .First(), .Last()
+Tut 5: [.Where(), .Single(), .First(), .Last() statement](https://www.youtube.com/watch?v=zzgdzQ1zVQg)
 
-Bài 6: Sorting & Paging
+Tut 6: [Sorting & Paging](https://www.youtube.com/watch?v=gqHe-B3kkQk)
