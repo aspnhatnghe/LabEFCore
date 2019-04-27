@@ -113,12 +113,12 @@ namespace LabEFCore.Controllers
         #region Sorting and Paging
         public IActionResult SapXep(string orderStr)
         {
-            if(string.IsNullOrEmpty(orderStr))
+            if (string.IsNullOrEmpty(orderStr))
             {
                 orderStr = "TenHh_Asc";
             }
             var dsHangHoa = ctx.HangHoas.AsQueryable();
-            switch(orderStr)
+            switch (orderStr)
             {
                 case "TenHh_Asc":
                     dsHangHoa = dsHangHoa.OrderBy(p => p.TenHh);
@@ -135,8 +135,10 @@ namespace LabEFCore.Controllers
 
             return View(dsHangHoa.Select(hh => new HangHoaView
             {
-                MaHh = hh.MaHh, TenHh = hh.TenHh,
-                Hinh = hh.Hinh, DonGia = hh.DonGia
+                MaHh = hh.MaHh,
+                TenHh = hh.TenHh,
+                Hinh = hh.Hinh,
+                DonGia = hh.DonGia
             }));
         }
 
@@ -173,6 +175,69 @@ namespace LabEFCore.Controllers
                 DonGia = hh.DonGia
             }));
         }
-        #endregion        
+        #endregion
+
+        #region ThongKe, GomNhom
+        public IActionResult ThongKe()
+        {
+            var thongKe = ctx.HangHoas
+                .GroupBy(p => p.Loai)
+                .Select(hh => new
+                {
+                    hh.Key.MaLoai,
+                    TenLoai = hh.Key.TenLoaiVn,
+                    SoLuongMatHang = hh.Count(),
+                    GiaLonNhat = hh.Max(p => p.DonGia),
+                    TongSoHangHoa = hh.Sum(p => p.SoLuong)
+                });
+
+            return Json(thongKe);
+        }
+
+        public IActionResult DoanhThuTheoLoai()
+        {
+            var thongKe = from ctdh in ctx.ChiTietDonHangs
+                          group ctdh by ctdh.HangHoa.Loai into g
+                          select new
+                          {
+                              g.Key.MaLoai,
+                              TenLoai = g.Key.TenLoaiVn,
+                              DoanhThu = g.Sum(p => p.SoLuong * p.DonGia * (1 - p.GiamGia))
+                          };
+            return Json(thongKe);
+        }
+
+        public IActionResult DoanhThuTheoNhaCC()
+        {
+            var thongKe = from ctdh in ctx.ChiTietDonHangs
+                          group ctdh by ctdh.HangHoa.NhaCungCap into g
+                          select new
+                          {
+                              g.Key.MaNcc,
+                              g.Key.TenNcc,
+                              DoanhThu = g.Sum(p => p.SoLuong * p.DonGia * (1 - p.GiamGia))
+                          };
+            return Json(thongKe);
+        }
+
+        public IActionResult DoanhThuTheoThangNam(int thang, int nam)
+        {
+            var thongKe = from ctdh in ctx.ChiTietDonHangs
+                          group ctdh by new
+                          {
+                              Nam = ctdh.DonHang.NgayDatHang.Year,
+                              Thang = ctdh.DonHang.NgayDatHang.Month,
+                          } into g
+                          select new
+                          {
+                              ThoiGian = $"{g.Key.Thang}/{g.Key.Nam}",
+                              DoanhThu = g.Sum(p => p.SoLuong * p.DonGia * (1 - p.GiamGia))
+                          };
+
+
+            return Json(thongKe);
+
+        }
+        #endregion
     }
 }
