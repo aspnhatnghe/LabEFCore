@@ -17,3 +17,5 @@ Tut 4: [.Select() statement](https://www.youtube.com/watch?v=cYgngtPWQRw)
 Tut 5: [.Where(), .Single(), .First(), .Last() statement](https://www.youtube.com/watch?v=zzgdzQ1zVQg)
 
 Tut 6: [Sorting & Paging](https://www.youtube.com/watch?v=gqHe-B3kkQk)
+
+Tut 7: [GroupBy](https://www.youtube.com/watch?v=iruHRgP_tOE)
